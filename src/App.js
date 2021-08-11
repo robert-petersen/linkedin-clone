@@ -7,6 +7,8 @@ import Sidebar from "./Sidebar";
 import Feed from './Feed';
 import Login from './Login';
 import { auth } from './firebase';
+import Widgets from './Widgets';
+
 
 function App() {
   const user = useSelector(selectUser);
@@ -15,17 +17,19 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged(userAuth => {
       if (userAuth) {
-        dispatch(login({
-          email: userAuth.email,
-          uid: userAuth.uid,
-          displayName: userAuth.displayName,
-          photoUrl: userAuth.photoURL,
-        }))
+        dispatch(
+          login({
+            email: userAuth.email,
+            uid: userAuth.uid,
+            displayName: userAuth.displayName,
+            photoUrl: userAuth.photoURL,
+          })
+        );
       } else {
         dispatch(logout())
       }
     })
-  })
+  }, []);
 
   return (
     <div className="app">
@@ -34,6 +38,7 @@ function App() {
         <div className="app__body">
           <Sidebar />
           <Feed />
+          <Widgets />
         </div>
       )}
     </div>
